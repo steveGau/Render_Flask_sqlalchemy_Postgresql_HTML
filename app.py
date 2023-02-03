@@ -8,12 +8,13 @@
 #
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+import psycopg2
 import gunicorn
 #
 app = Flask(__name__)
 with app.app_context():
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:password@localhost/db_name'
-    id=1
+    id=0
     if id==1:
         # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3050Pony$@localhost/students'
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3050Pony$@localhost/mydatabase'
