@@ -14,12 +14,10 @@ import gunicorn
 app = Flask(__name__)
 with app.app_context():
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:password@localhost/db_name'
-    id=0
-    if id==1:
-        # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3050Pony$@localhost/students'
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3050Pony$@localhost/mydatabase'
-    else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://stevegau:pCdaBZ1ehnzaSkF4sQFYgPRWQSWoVl6x@dpg-cfc9gbun6mpiero1lsbg-a.ohio-postgres.render.com:1000/students_0h01'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3050Pony$@localhost/students'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3050Pony$@localhost/mydatabase'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://stevegau:pCdaBZ1ehnzaSkF4sQFYgPRWQSWoVl6x@dpg-cfc9gbun6mpiero1lsbg-a.ohio-postgres.render.com:1000/students_0h01'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://stevegau:pCdaBZ1ehnzaSkF4sQFYgPRWQSWoVl6x@dpg-cfc9gbun6mpiero1lsbg-a/students_0h01'
 #
     db = SQLAlchemy(app)
 #
