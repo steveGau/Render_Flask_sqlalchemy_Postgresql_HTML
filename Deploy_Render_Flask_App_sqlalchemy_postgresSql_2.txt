@@ -1,0 +1,157 @@
+Deploy flask Dash App to Render in Python
+
+############### A: run flask at local port
+0. cd to the run folder
+cd C:\Users\a2907\Desktop\pyApp\DeepLearning\Render\render_flask_app_Convert_psycopg2_sqlalchemy_postgresSql_StudentTable
+
+1. required files at folder
+	app.py
+	requirements.txt
+	
+2. create python files at folder
+	app.py
+
+3. pip install pipreqs
+
+4. pipreqs --encoding=utf8 --force 
+   or
+   pipenv run pip freeze > requirements.txt
+
+3. install pipen at folder at pycharm command window
+	pip install pipenv
+	which pipenv
+
+4. to check app.py, run flask at local port at pycharm command window
+	flask run 
+	
+############### B: upload files to github
+0. required files at folder
+	app.py
+	requirements.txt
+
+2. Web: Creating a Git Account
+		
+3. Web: login github
+		https://github.com/login
+		a290772@gmail.com (3P$)
+			
+4. create a new repository
+	Under Top Repositories, Click New
+	Repository name = Render_Flask_sqlalchemy_Postgresql_HTML
+	Sedcription = Render_Flask_sqlalchemy_Postgresql_HTML
+	PublicAdd a README file
+	Create repository
+
+5. Local PC:  push the code to that instance using the following commands at pycharm command window, local folder
+	git init
+	git add .
+	git commit -m "Initial Commit Render_Flask_sqlalchemy_Postgresql_HTML"
+	git remote add origin https://github.com/steveGau/Render_Flask_sqlalchemy_Postgresql_HTML.git
+	git push -u origin master
+
+6. github files location:
+	files is under main/master:
+		https://github.com/steveGau/Render_Flask_Postgresql/master
+
+7. delete github Delete repository (steveGau/Render_Flask_Postgresql)
+	under settings, click "Delete this repository", type"steveGau/Render_Flask_Postgresql"
+
+############### C: create postgresql using render
+Connections:
+	name: 					hudsonohio
+	Hostname: 				dpg-cfc9gbun6mpiero1lsbg-a
+	Database: 				students_0h01
+	user: 					stevegau
+	PostgreSQL port:		5432
+	Password: 				pCdaBZ1ehnzaSkF4sQFYgPRWQSWoVl6x
+	Internal Database URL: 	postgres://stevegau:pCdaBZ1ehnzaSkF4sQFYgPRWQSWoVl6x@dpg-cfc9gbun6mpiero1lsbg-a/students_0h01
+	External Database URL:	postgres://stevegau:pCdaBZ1ehnzaSkF4sQFYgPRWQSWoVl6x@dpg-cfc9gbun6mpiero1lsbg-a.ohio-postgres.render.com/students_0h01
+	PSQL Command:			PGPASSWORD=pCdaBZ1ehnzaSkF4sQFYgPRWQSWoVl6x psql -h dpg-cfc9gbun6mpiero1lsbg-a.ohio-postgres.render.com -U stevegau students_0h01
+
+############### D: Deploy flask Using render
+0. render doc
+	https://render.com/docs
+	https://render.com/docs/deploy-django
+	https://render.com/docs/deploy-flask
+	https://render.com/docs/deploy-celery
+
+1. Create a render account
+
+2. to create a Service
+	login to render account https://render.com
+	Create a new Web Service
+	Connect to surveyResultsApp1 under github
+	Web Service Name = surveyResultsApp1
+	Environment = python 3
+	Region = Ohio (US East)
+	Branch = master (Define at Github)
+	Build Command = pip install -r requirements.txt
+			1st app is app.py    2nd app is app = Flask(__name__)
+	Start Command = gunicorn app:app
+	set enviroment for connection in render, add
+	DATABASE_URL=postgresql://stevegau:pCdaBZ1ehnzaSkF4sQFYgPRWQSWoVl6x@dpg-cfc9gbun6mpiero1lsbg-a/students_0h01
+	Root DirectoryOptional: Defaults to repository root
+	Create Web Service
+		If success Message:
+			Starting service with 'flask run'
+
+3. click Events under render.com to get App URL
+	https://Render_Flask_Postgresql_1.onrender.com
+
+4. to use APP: https://Render_Flask_Postgresql_1.onrender.com
+	
+5. delete Render web service
+	under web service, https://Render_Flask_Postgresql_1.onrender.com
+	under settings, click "delete web service", type"sudo delete web service https://Render_Flask_Postgresql_1"
+
+############### E: Using ChatGPT to write the code, questions
+# Configure flask for PostgreSQL in web host render.com
+# Here are the steps to configure Flask for PostgreSQL on Render:
+1. Create a new PostgreSQL database instance in Render.
+2. Connect to the database instance using the credentials provided in the Render Dashboard.
+3. Install the Flask and psycopg2 libraries using pip.
+4. Create a new Flask application in your code editor.
+5. Add the following code to your Flask application to connect to your PostgreSQL database:
+6. Replace DATABASE_URL with the URL provided in the Render Dashboard for your database instance.
+7. Deploy your Flask application to Render using Git or by uploading your code through the Render Dashboard.
+8. Access your application through the URL provided in the Render Dashboard to verify that it is correctly connected to your PostgreSQL database.
+9. how to get app.config['SQLALCHEMY_DATABASE_URI']
+#
+#### is DATABASE_URL a Internal Database URL or External Database URL
+1. The DATABASE_URL environment variable in the code is typically an external database URL. 
+2. It's a URL that is used to connect to a database instance hosted on a separate server, rather than a database instance running on the same server as the application.
+3. In the case of Render, the DATABASE_URL is the external URL for a PostgreSQL database instance hosted on Render's servers, and is used to connect the Flask application to that database instance. The URL can be found in the Render dashboard for the specific database instance.
+
+############### F: app.py
+from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+import gunicorn
+#
+app = Flask(__name__)
+#
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://stevegau:pCdaBZ1ehnzaSkF4sQFYgPRWQSWoVl6x@dpg-cfc9gbun6mpiero1lsbg-a.ohio-postgres.render.com:1000/students_0h01'
+#
+db = SQLAlchemy(app)
+#
+class StudentTable(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    #
+    def __repr__(self):
+        return '<StudentTable %r>' % self.name
+#
+@app.route('/')
+def index():
+    studentInputData = StudentTable(name='John Doe', age=25)
+    db.session.add(studentInputData)
+    db.session.commit()
+    studentsOutputData = StudentTable.query.all()
+    print(studentsOutputData)
+    return str(studentsOutputData)
+#
+if __name__ == '__main__':
+    with app.app_context():
+        index()
+        # app.run(port=1000)
+        app.run()
